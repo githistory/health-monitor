@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ConflictException, Injectable, OnModuleInit } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateServiceDto, Service } from '../models/service.model';
 import { EventBusService } from './event-bus.service';
@@ -23,6 +23,14 @@ export class ServicesService implements OnModuleInit {
   }
 
   async create(createServiceDto: CreateServiceDto): Promise<Service> {
+    // Check if URL already exists
+    const existingServices = this.state.getServices();
+    const urlExists = existingServices.some(service => service.url === createServiceDto.url);
+    
+    if (urlExists) {
+      throw new ConflictException('A service with this URL already exists');
+    }
+
     const service: Service = {
       id: uuidv4(),
       ...createServiceDto,

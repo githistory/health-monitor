@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 interface AddServiceFormProps {
   onSubmit: (name: string, url: string) => void;
+  onInputChange: () => void;
 }
 
-const AddServiceForm: React.FC<AddServiceFormProps> = ({ onSubmit }) => {
+const AddServiceForm: React.FC<AddServiceFormProps> = ({ onSubmit, onInputChange }) => {
   const [name, setName] = useState('');
   const [url, setUrl] = useState('');
 
@@ -13,6 +14,11 @@ const AddServiceForm: React.FC<AddServiceFormProps> = ({ onSubmit }) => {
     onSubmit(name, url);
     setName('');
     setUrl('');
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, setter: (value: string) => void) => {
+    setter(e.target.value);
+    onInputChange();
   };
 
   return (
@@ -24,7 +30,7 @@ const AddServiceForm: React.FC<AddServiceFormProps> = ({ onSubmit }) => {
           type="text"
           id="name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => handleInputChange(e, setName)}
           required
         />
       </div>
@@ -34,7 +40,7 @@ const AddServiceForm: React.FC<AddServiceFormProps> = ({ onSubmit }) => {
           type="url"
           id="url"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e) => handleInputChange(e, setUrl)}
           required
         />
       </div>

@@ -10,6 +10,7 @@ const SOCKET_URL = 'http://localhost:3000';
 
 function App() {
   const [services, setServices] = useState<Service[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const socket = io(SOCKET_URL, {
@@ -44,15 +45,22 @@ function App() {
 
   const handleAddService = async (name: string, url: string) => {
     try {
-      await fetch(`${API_BASE_URL}/services`, {
+      setError(null); // Clear any previous errors
+      const response = await fetch(`${API_BASE_URL}/services`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name, url }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to add service');
+      }
     } catch (error) {
       console.error('Error adding service:', error);
+      setError(error instanceof Error ? error.message : 'Failed to add service');
     }
   };
 
@@ -73,7 +81,15 @@ function App() {
         <h1>Health Monitoring System</h1>
       </header>
       <main>
-        <AddServiceForm onSubmit={handleAddService} />
+        <AddServiceForm 
+          onSubmit={handleAddService} 
+          onInputChange={() => setError(null)}
+        />
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
         <ServiceList services={services} onDelete={handleDeleteService} />
       </main>
     </div>
