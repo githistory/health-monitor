@@ -27,6 +27,7 @@ export class ServicesService implements OnModuleInit {
       id: uuidv4(),
       ...createServiceDto,
       status: 'DOWN', // Initial status
+      history: [], // Initialize history as an empty array
     };
     this.state.addService(service);
     

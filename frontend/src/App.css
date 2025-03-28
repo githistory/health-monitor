@@ -102,11 +102,19 @@ button:hover {
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
+  overflow: hidden;
+  z-index: 1;
+  min-height: 100px;
 }
+
+.service-card h3,
+.service-card p,
+.service-card .status-indicator,
 
 .service-card h3 {
   margin: 0 0 10px 0;
   color: #333;
+  padding-right: 30px;
 }
 
 .service-card p {
@@ -144,8 +152,27 @@ button:hover {
   padding: 5px 10px;
   cursor: pointer;
   transition: color 0.2s ease;
+  z-index: 3;
 }
 
 .delete-button:hover {
   color: #f44336;
+}
+
+.uptime-chart {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 40px;
+  width: 100%;
+  opacity: 0.85;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
