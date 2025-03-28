@@ -1,23 +1,23 @@
 import React from 'react';
 import { Service } from '../types/Service';
+import ServiceCard from './ServiceCard';
 
 interface ServiceListProps {
   services: Service[];
+  onDelete: (id: string) => void;
 }
 
-const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
+const ServiceList: React.FC<ServiceListProps> = ({ services, onDelete }) => {
   return (
     <div className="service-list">
       <h2>Monitored Services</h2>
       <div className="services-grid">
         {services.map((service) => (
-          <div key={service.id} className="service-card">
-            <h3>{service.name}</h3>
-            <p>{service.url}</p>
-            <div className={`status-indicator ${service.status.toLowerCase()}`}>
-              {service.status}
-            </div>
-          </div>
+          <ServiceCard
+            key={service.id}
+            service={service}
+            onDelete={onDelete}
+          />
         ))}
       </div>
     </div>

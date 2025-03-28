@@ -63,4 +63,21 @@ export class ServicesService implements OnModuleInit {
 
     return updatedService;
   }
+
+  async delete(id: string): Promise<boolean> {
+    const services = this.state.getServices();
+    const serviceIndex = services.findIndex(service => service.id === id);
+    if (serviceIndex === -1) {
+      return false;
+    }
+
+    // Remove the service from state
+    const updatedServices = services.filter(service => service.id !== id);
+    this.state.setServices(updatedServices);
+
+    // Broadcast the updated services list
+    this.eventBus.emitAllServices(updatedServices);
+
+    return true;
+  }
 } 

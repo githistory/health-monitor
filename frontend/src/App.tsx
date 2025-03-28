@@ -56,6 +56,17 @@ function App() {
     }
   };
 
+  const handleDeleteService = async (id: string) => {
+    try {
+      await fetch(`${API_BASE_URL}/services/${id}`, {
+        method: 'DELETE',
+      });
+      // The socket event will handle updating the UI
+    } catch (error) {
+      console.error('Error deleting service:', error);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -63,7 +74,7 @@ function App() {
       </header>
       <main>
         <AddServiceForm onSubmit={handleAddService} />
-        <ServiceList services={services} />
+        <ServiceList services={services} onDelete={handleDeleteService} />
       </main>
     </div>
   );

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateServiceDto } from '../models/service.model';
 import { ServicesService } from './services.service';
 
@@ -14,5 +14,10 @@ export class ServicesController {
   @Post()
   async create(@Body() createServiceDto: CreateServiceDto) {
     return await this.servicesService.create(createServiceDto);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.servicesService.delete(id);
   }
 } 
