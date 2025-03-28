@@ -1,0 +1,14 @@
+{
+  "name": "health-monitor",
+  "version": "1.0.0",
+  "description": "Health monitoring system for microservices",
+  "scripts": {
+    "start:backend": "cd backend && npm run start:dev",
+    "start:frontend": "cd frontend && npm start",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
